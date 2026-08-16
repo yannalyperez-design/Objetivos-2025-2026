@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Prioridades — Cierre Fiscal</title>
+<style>
+  :root{
+    --navy:#001E62;
+    --blue:#418FDE;
+    --blue-light:#EAF2FC;
+    --ink:#1C1F26;
+    --gray:#6B7280;
+    --gray-light:#F4F5F7;
+    --border:#E2E5EA;
+    --white:#FFFFFF;
+    --red:#D64545;
+    --red-bg:#FBEAEA;
+    --amber:#C98A1E;
+    --amber-bg:#FBF2E2;
+    --green:#2E8B57;
+    --green-bg:#E9F5EE;
+    --blueish:#2A6DB0;
+    --blueish-bg:#E7F0FA;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:var(--gray-light);
+    color:var(--ink);
+    padding:0 0 60px 0;
+  }
+  header.top{
+    background:linear-gradient(135deg, var(--navy) 0%, #0A2A6E 60%, var(--blue) 130%);
+    color:var(--white);
+    padding:36px 48px 30px;
+  }
+  header.top .eyebrow{
+    font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+    color:#AFC8F5; font-weight:600; margin-bottom:8px;
+  }
+  header.top h1{ margin:0 0 6px 0; font-size:28px; font-weight:700; letter-spacing:-0.3px; }
+  header.top p.sub{ margin:0; color:#D8E4FB; font-size:14px; max-width:760px; line-height:1.5; }
+  .meta-row{ display:flex; gap:14px; margin-top:20px; flex-wrap:wrap; }
+  .meta-pill{
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25);
+    border-radius:20px; padding:7px 14px; font-size:12.5px; font-weight:600;
+    display:flex; align-items:center; gap:6px;
+  }
+  .meta-pill.warn{ background:rgba(214,69,69,0.22); border-color:rgba(214,69,69,0.5); }
+
+  main{ max-width:1280px; margin:0 auto; padding:0 32px; }
+
+  .contingency-banner{
+    margin-top:-16px; background:var(--white); border:1px solid var(--border);
+    border-left:5px solid var(--red); border-radius:var(--radius);
+    padding:16px 20px; box-shadow:0 4px 14px rgba(0,30,98,0.06);
+    font-size:13.5px; line-height:1.6; color:var(--ink);
+  }
+  .contingency-banner b{color:var(--red);}
+
+  section.objectives{ margin-top:28px; }
+  section.objectives h2{
+    font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--gray);
+    font-weight:700; margin:0 0 12px 2px;
+  }
+  .obj-table-wrap{
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius);
+    overflow-x:auto; box-shadow:0 2px 8px rgba(0,30,98,0.04);
+  }
+  table.obj-detail-table{ width:100%; border-collapse:collapse; min-width:1080px; }
+  table.obj-detail-table th{
+    background:var(--navy); color:var(--white); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.4px; font-weight:700; padding:9px 10px; text-align:center; border:1px solid #0A2A6E;
+  }
+  table.obj-detail-table td{
+    font-size:11.8px; line-height:1.42; padding:10px 11px; border:1px solid var(--border);
+    vertical-align:top; color:var(--ink);
+  }
+  table.obj-detail-table td.obj-strat{
+    font-weight:700; color:var(--navy); background:var(--blue-light); text-align:center; vertical-align:middle;
+  }
+  table.obj-detail-table td.obj-name{ font-weight:600; color:var(--navy); background:#FAFBFD; }
+  table.obj-detail-table td.peso{ text-align:center; font-weight:800; color:var(--blue); }
+  table.obj-detail-table td.achieved{
+    background:var(--green-bg); border-left:3px solid var(--green); font-weight:500;
+  }
+  table.obj-detail-table td[contenteditable="true"],
+  table.obj-detail-table td .meta-text[contenteditable="true"]{ outline:none; }
+  table.obj-detail-table td[contenteditable="true"]:focus,
+  table.obj-detail-table .meta-text[contenteditable="true"]:focus{
+    background:#FFFDE8; box-shadow:0 0 0 2px #F0DE7A inset; border-radius:4px;
+  }
+  td.meta-cell{ position:relative; padding-top:24px !important; }
+  .achieve-toggle{
+    position:absolute; top:5px; right:5px; width:18px; height:18px; border-radius:5px;
+    border:1px solid var(--border); background:var(--white); color:#C2C6CE; font-size:11px;
+    line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800;
+  }
+  td.achieved .achieve-toggle{ background:var(--green); color:var(--white); border-color:var(--green); }
+  .evidence-line{
+    margin-top:7px; font-size:10.5px; font-weight:700; color:var(--green); min-height:15px; outline:none;
+  }
+  .evidence-line:empty:before{ content:attr(data-placeholder); color:#B7BDC7; font-weight:500; font-style:italic; }
+  td.achieved .evidence-line:empty:before{ color:#7FAE8F; }
+  select.country-select{
+    font-family:inherit; font-size:11px; font-weight:700; border:1px solid var(--border); border-radius:6px;
+    padding:4px 6px; cursor:pointer; width:100%; background:var(--white); color:var(--navy);
+  }
+  .evidence-line[contenteditable="true"]:not(:empty){ text-decoration:underline; cursor:text; }
+  .split-btn{
+    display:block; margin-top:8px; font-size:10.5px; font-weight:700; color:var(--blue);
+    background:rgba(65,143,222,0.1); border:1px solid rgba(65,143,222,0.3); border-radius:6px;
+    padding:4px 8px; cursor:pointer; font-family:inherit;
+  }
+  .split-btn:hover{ background:var(--blue); color:var(--white); }
+  .obs-content{ min-height:16px; outline:none; }
+  .obs-content:empty:before{ content:attr(data-placeholder); color:#B7BDC7; font-style:italic; }
+  .obs-content:focus{ background:#FFFDE8; box-shadow:0 0 0 2px #F0DE7A inset; border-radius:4px; }
+  .link-btn{
+    display:block; margin-top:6px; font-size:10px; font-weight:700; color:var(--blue);
+    background:rgba(65,143,222,0.1); border:1px solid rgba(65,143,222,0.3); border-radius:6px;
+    padding:3px 7px; cursor:pointer; font-family:inherit;
+  }
+  .link-btn:hover{ background:var(--blue); color:var(--white); }
+  .note-link{
+    display:inline-block; margin-top:4px; font-size:11px; font-weight:700; color:var(--green);
+    text-decoration:underline; cursor:pointer;
+  }
+  table.mini-matrix{ border-collapse:collapse; width:100%; max-width:640px; }
+  table.mini-matrix th{
+    background:var(--navy); color:var(--white); font-size:10px; text-transform:uppercase;
+    padding:6px 10px; border:1px solid #0A2A6E; text-align:center;
+  }
+  table.mini-matrix td{
+    border:1px solid var(--border); padding:6px 8px; font-size:12px; text-align:center; background:var(--white);
+  }
+  table.mini-matrix td.area-name{ text-align:left; font-weight:600; color:var(--navy); }
+  table.mini-matrix td.mstat-cell{ padding:4px; }
+  .mstat-pct{
+    font-size:13px; font-weight:800; color:var(--navy); outline:none; padding:2px 4px; border-radius:4px;
+  }
+  .mstat-people{
+    font-size:10.5px; font-weight:700; color:var(--red); outline:none; padding:2px 4px; margin-top:2px; border-radius:4px;
+  }
+  .mstat-pct:focus, .mstat-people:focus{ background:#FFFDE8; box-shadow:0 0 0 2px #F0DE7A inset; }
+  table.obj-detail-table td.obs-cell{ font-size:11.5px; font-style:italic; color:var(--gray); }
+  table.obj-detail-table td.obs-cell:empty:before{ content:attr(data-placeholder); color:#B7BDC7; }
+  table.obj-detail-table td.obs-cell:focus{ background:#FFFDE8; box-shadow:0 0 0 2px #F0DE7A inset; font-style:normal; color:var(--ink); }
+  .induccion-obs:empty:before{ content:attr(data-placeholder); color:#B7BDC7; font-style:italic; }
+  .induccion-obs:focus{ outline:none; background:#FFFDE8; box-shadow:0 0 0 2px #F0DE7A inset; }
+  .evidence-tag{
+    display:inline-block; margin-top:6px; font-size:10.5px; font-weight:700; color:var(--green);
+    background:rgba(46,139,87,0.12); padding:2px 8px; border-radius:20px;
+  }
+  .legend-achieved{
+    display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--gray);
+    margin-top:8px; padding-left:2px;
+  }
+  .legend-achieved .swatch{
+    width:12px; height:12px; border-radius:3px; background:var(--green-bg); border-left:3px solid var(--green); display:inline-block;
+  }
+
+  /* Summary strip per topic */
+  .progress-strip{
+    display:flex; gap:8px; padding:12px 20px; background:var(--white); border-bottom:1px solid var(--border);
+    font-size:11.5px; font-weight:700; flex-wrap:wrap;
+  }
+  .progress-chip{ padding:4px 10px; border-radius:20px; }
+  .progress-chip.done{ background:var(--green-bg); color:var(--green); }
+  .progress-chip.ongoing{ background:var(--amber-bg); color:var(--amber); }
+  .progress-chip.pendiente{ background:var(--red-bg); color:var(--red); }
+
+  .topic{
+    background:var(--white); border:1px solid var(--border); border-radius:var(--radius);
+    margin-top:22px; overflow:hidden; box-shadow:0 2px 8px rgba(0,30,98,0.04);
+  }
+  .topic-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px; background:var(--blue-light); border-bottom:1px solid var(--border);
+  }
+  .topic-head-left{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .topic-head h3{ margin:0; font-size:16px; color:var(--navy); font-weight:700; }
+  .topic-badge{
+    font-size:11px; font-weight:700; color:var(--blue); background:rgba(65,143,222,0.12);
+    padding:3px 9px; border-radius:20px;
+  }
+  .completion-badge{
+    font-size:11px; font-weight:800; color:var(--navy); background:var(--white);
+    border:1px solid var(--border); padding:3px 9px; border-radius:20px;
+  }
+  .pending-badge{
+    font-size:11px; font-weight:800; color:var(--red); background:var(--red-bg);
+    border:1px solid rgba(214,69,69,0.3); padding:3px 9px; border-radius:20px;
+  }
+  .add-row-btn{
+    border:1px solid var(--blue); background:var(--white); color:var(--blue);
+    font-size:12px; font-weight:700; padding:6px 12px; border-radius:7px; cursor:pointer; font-family:inherit;
+  }
+  .add-row-btn:hover{background:var(--blue);color:var(--white);}
+
+  table{ width:100%; border-collapse:collapse; }
+  thead th{
+    text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.5px;
+    color:var(--gray); font-weight:700; padding:10px 14px; border-bottom:1px solid var(--border); background:var(--white);
+  }
+  tbody td{ padding:12px 14px; font-size:13px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.45; }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FAFBFD;}
+
+  td[contenteditable="true"]{ outline:none; border-radius:6px; transition:background .15s; }
+  td[contenteditable="true"]:focus{ background:#FFFDE8; box-shadow:0 0 0 2px #F0DE7A inset; }
+  td[contenteditable="true"]:empty:before{ content:attr(data-placeholder); color:#B7BDC7; font-style:italic; }
+
+  .col-subfoco{width:13%; font-weight:600; color:var(--navy);}
+  .col-pendiente{width:22%;}
+  .col-peso{width:6%; text-align:center;}
+  .col-estatus{width:10%;}
+  .col-prioridad{width:9%;}
+  .col-resp{width:11%;}
+  .col-obj{width:12%;}
+  .col-obs{width:14%;}
+  .col-del{width:3%; text-align:center;}
+
+  td.col-peso[contenteditable="true"]{ text-align:center; font-weight:700; color:var(--navy); }
+
+  select.priority-select, select.status-select{
+    font-family:inherit; font-size:12px; font-weight:700; border:none; border-radius:20px;
+    padding:5px 10px; cursor:pointer; width:100%; appearance:none; -webkit-appearance:none;
+  }
+  select.priority-select.alta{background-color:var(--red-bg); color:var(--red);}
+  select.priority-select.media{background-color:var(--amber-bg); color:var(--amber);}
+  select.priority-select.baja{background-color:var(--green-bg); color:var(--green);}
+
+  select.status-select.done{background-color:var(--green-bg); color:var(--green);}
+  select.status-select.ongoing{background-color:var(--amber-bg); color:var(--amber);}
+  select.status-select.pendiente{background-color:var(--red-bg); color:var(--red);}
+
+  .obj-tag{
+    display:inline-block; font-size:11px; font-weight:700; padding:4px 9px; border-radius:6px;
+    background:var(--blue-light); color:var(--navy); border:1px solid #CFE0F7;
+  }
+
+  .del-btn{ border:none; background:transparent; color:#C2C6CE; font-size:16px; cursor:pointer; line-height:1; }
+  .del-btn:hover{color:var(--red);}
+
+  .actions-bar{
+    position:sticky; bottom:0; margin-top:34px; background:var(--white); border-top:1px solid var(--border);
+    padding:16px 32px; display:flex; justify-content:space-between; align-items:center;
+    box-shadow:0 -4px 16px rgba(0,30,98,0.06); gap:16px; flex-wrap:wrap;
+  }
+  .actions-bar .hint{ font-size:12px; color:var(--gray); }
+  .actions-right{ display:flex; gap:10px; align-items:center; }
+  .btn-primary{
+    background:var(--navy); color:var(--white); border:none; font-family:inherit; font-weight:700;
+    font-size:13px; padding:11px 20px; border-radius:8px; cursor:pointer;
+  }
+  .btn-primary:hover{background:#0A2A6E;}
+  .btn-secondary{
+    background:var(--white); color:var(--navy); border:1px solid var(--navy); font-family:inherit; font-weight:700;
+    font-size:13px; padding:10px 18px; border-radius:8px; cursor:pointer;
+  }
+  .btn-secondary:hover{background:var(--blue-light);}
+  #saveStatus{ font-size:12px; color:var(--green); font-weight:600; opacity:0; transition:opacity .3s; }
+  #saveStatus.show{ opacity:1; }
+
+  @media (max-width: 780px){
+    header.top{padding:26px 20px;}
+    main{padding:0 14px;}
+    .topic-head{flex-direction:column; align-items:flex-start; gap:10px;}
+    table, thead, tbody, th, td, tr{display:block;}
+    thead{display:none;}
+    tbody td{border-bottom:none; padding:6px 16px;}
+    tbody tr{border-bottom:1px solid var(--border); padding:10px 0;}
+    .col-subfoco{font-size:14px;}
+    .actions-bar{flex-direction:column; align-items:stretch;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">CENCAP · Gestión de Personas · Farmatodo</div>
+  <h1>Dashboard de Prioridades — Cierre Fiscal</h1>
+  <p class="sub">Trazabilidad de entregables pendientes vs. objetivos del GDDD (Año fiscal Ago24–Jul25), priorizados según la contingencia operativa actual.</p>
+  <div class="meta-row">
+    <div class="meta-pill">🗓️ 4 semanas para cierre fiscal</div>
+    <div class="meta-pill">🌎 Rol corporativo: Venezuela · Colombia · Argentina</div>
+    <div class="meta-pill warn">⚠️ Contingencia activa en Venezuela — foco prioritario en CO/AR</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="contingency-banner">
+    <b>Regla de priorización vigente:</b> dado que Venezuela se encuentra en contingencia operativa, todos los entregables con impacto directo en <b>Colombia y Argentina</b> se marcan como Prioridad Alta por defecto. Las tareas en Venezuela pasan a seguimiento de mantenimiento salvo que sean bloqueantes para los otros países.
+  </div>
+
+  <section class="objectives">
+    <h2>Objetivos GDDD — Planificación (Ago24–Jul25)</h2>
+    <div class="obj-table-wrap">
+      <table class="obj-detail-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Objetivo Estratégico</th>
+            <th rowspan="2">Objetivo</th>
+            <th rowspan="2">Indicador</th>
+            <th rowspan="2">Peso</th>
+            <th rowspan="2">Aplica a</th>
+            <th colspan="3">Metas</th>
+            <th rowspan="2">Observaciones</th>
+          </tr>
+          <tr>
+            <th>Mínimo (75%)</th>
+            <th>Meta (100%)</th>
+            <th>Superior (125%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" class="obj-strat" contenteditable="true">Alcanzar la Excelencia Operativa</td>
+            <td rowspan="2" class="obj-name" contenteditable="true">
+              Impulsar la Excelencia en Farmatodo al brindar conocimientos y herramientas que permitan a los colaboradores nuevo ingreso dominar los procesos del cargo
+              <button class="split-btn" onclick="splitWeight('grp-excelencia')" title="Repartir el peso total entre los indicadores de este objetivo">⚖ Dividir peso</button>
+            </td>
+            <td contenteditable="true">Mejorar el proceso de Plan de Entrenamiento para todas las unidades de negocio para facilitar el aprendizaje de los procesos</td>
+            <td class="peso" data-group="grp-excelencia" contenteditable="true" onblur="updateWeightTotal()">25%</td>
+            <td>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Implementar estrategias para impulsar la correcta ejecución de planes de entrenamiento en todas las unidades de negocio de los tres países (prioridad Operaciones)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Redefinición de las evaluaciones de conocimiento sobre planes de entrenamiento de operaciones para medir efectivamente dominio de los procesos del cargo (Ven, Col y Arg)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Ejecución de la digitalización del Plan de Entrenamiento para todas las unidades de negocio en los 3 países (prioridad Operaciones)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+          </tr>
+          <tr>
+            <td contenteditable="true">Llevar a cabo actividades que impulsen la correcta ejecución del plan de inducción por parte de las áreas de RRHH Negocio y las Farmacias Escuela</td>
+            <td class="peso" data-group="grp-excelencia" contenteditable="true" onblur="updateWeightTotal()">20%</td>
+            <td>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+            </td>
+            <td class="meta-cell achieved">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Ejecución del nuevo inicio 2.0. en todas las áreas de negocio de todos los países</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell achieved">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Cumplimiento del 80% de las actividades de capacitación del roadmap de mejora de la inducción (on boarding)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia">📎 Proyecto de Onboarding - Roadmap</div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Realizar entrenamientos para garantizar que el 50% de los instructores de farmacias escuelas seleccionadas estén entrenados adecuadamente e implementar una metodología para mantener entrenado al resto de la farmacia escuela</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+          </tr>
+          <tr>
+            <td class="obj-name" contenteditable="true">Aumentar la experticia y especialización de los colaboradores para mejorar el desempeño en sus cargos y acompañar la misión Organizacional</td>
+            <td contenteditable="true">Implementar actividades de formación para actualizar a los colaboradores con las tendencias globales y ampliar sus conocimientos técnicos (según cumplimiento del presupuesto)</td>
+            <td class="peso" contenteditable="true" onblur="updateWeightTotal()">20%</td>
+            <td>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">85% del cumplimiento de plan de entrenamiento técnico internacional para los sucesores de Comité Ejecutivo y ocupantes de cargos clave (según plan aprobado)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">90% del cumplimiento de plan de entrenamiento técnico internacional para los sucesores de Comité Ejecutivo y ocupantes de cargos clave (según plan aprobado)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Ejecutar sesiones de formación en tendencias y actualización para al menos 3 vicepresidencias</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+          </tr>
+          <tr>
+            <td class="obj-name" contenteditable="true">Fomentar el autodesarrollo de los colaboradores a través de herramientas que les faciliten formarse</td>
+            <td contenteditable="true">Implementar formaciones que sirvan como herramientas para que los líderes impulsen el dominio de procesos</td>
+            <td class="peso" contenteditable="true" onblur="updateWeightTotal()">15%</td>
+            <td>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+            </td>
+            <td class="meta-cell achieved">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Levantamiento de los procesos de Capacitación de plan de inducción como insumo para construir nueva Academia Farmatodo</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia">📎 PAP procesos de capacitación</div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Implementación de mejoras de nueva Academia Farmatodo (nuevo sistema)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Diseñar un ambiente controlado de aprendizaje para el entrenamiento en procesos y ejecutar al menos en Argentina</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+          </tr>
+          <tr>
+            <td class="obj-strat" contenteditable="true">—</td>
+            <td class="obj-name" contenteditable="true">Control de Gastos</td>
+            <td contenteditable="true">Gastos VP RRHH (gastos controlables)</td>
+            <td class="peso" contenteditable="true" onblur="updateWeightTotal()">10%</td>
+            <td>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Sobreejecución 2% del presupuesto (584.809,86 USD)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Ejecución del 100% presupuesto (573.343 USD)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">Ahorro del 2% del presupuesto (561.876,14 USD)</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+          </tr>
+          <tr>
+            <td class="obj-strat" contenteditable="true">Crecer en los mercados donde estamos presentes y nuevos mercados</td>
+            <td class="obj-name" contenteditable="true">Fortalecer el servicio diferenciador que brindamos a nuestros clientes internos</td>
+            <td contenteditable="true">Cumplimiento del indicador CSAT interno de capacitación</td>
+            <td class="peso" contenteditable="true" onblur="updateWeightTotal()">10%</td>
+            <td>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">89% CSAT interno</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">90% CSAT interno</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="meta-cell">
+              <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
+              <div class="meta-text" contenteditable="true">91% CSAT interno</div>
+              <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
+            </td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right;font-weight:700;background:var(--blue-light);border:1px solid var(--border);">Total de pesos:</td>
+            <td id="weightTotal" style="font-weight:800;text-align:center;background:var(--blue-light);border:1px solid var(--border);"></td>
+            <td colspan="4" style="background:var(--blue-light);border:1px solid var(--border);"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="legend-achieved"><span class="swatch"></span> Nivel de meta alcanzado / en curso, con evidencia documentada</div>
+
+    <div class="obj-table-wrap" style="margin-top:16px; padding:16px 20px;">
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Resumen del Plan de Inducción — por Área y País</div>
+      <table class="mini-matrix">
+        <thead><tr><th>Área</th><th>Venezuela</th><th>Colombia</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="area-name" contenteditable="true">Oficina</td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+          </tr>
+          <tr>
+            <td class="area-name" contenteditable="true">Operaciones</td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+          </tr>
+          <tr>
+            <td class="area-name" contenteditable="true">CEDIS</td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+          </tr>
+          <tr>
+            <td class="area-name" contenteditable="true">Pasantes / Trainee</td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+            <td class="mstat-cell"><div class="mstat-pct" contenteditable="true" data-placeholder="% avance">0%</div><div class="mstat-people" contenteditable="true" data-placeholder="0 personas" onblur="updateInduccionTotals()">0 pendientes</div></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td style="font-weight:700; background:var(--blue-light);">Total pendientes</td>
+            <td id="totalPendVE" style="font-weight:800; text-align:center; background:var(--blue-light);"></td>
+            <td id="totalPendCO" style="font-weight:800; text-align:center; background:var(--blue-light);"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div style="margin-top:10px;">
+        <div style="font-size:10.5px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Observaciones</div>
+        <div class="induccion-obs" contenteditable="true" data-placeholder="Agrega notas sobre el avance del plan de inducción..." style="font-size:12.5px; padding:8px 10px; border:1px solid var(--border); border-radius:8px; min-height:20px; background:var(--white);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FARMACIA ESCUELA -->
+  <div class="topic" data-topic="farmacia-escuela">
+    <div class="topic-head">
+      <div class="topic-head-left"><h3>Farmacia Escuela</h3><span class="topic-badge">Vinculado: 20% Inducción y Farmacia Escuela</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
+      <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-subfoco">Sub-foco</th><th class="col-pendiente">Pendiente</th><th class="col-peso">Peso</th>
+        <th class="col-estatus">Estatus</th><th class="col-prioridad">Prioridad</th><th class="col-resp">Responsable</th>
+        <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="col-subfoco" contenteditable="true">Entrenamiento CO/AR</td><td class="col-pendiente" contenteditable="true">Falta aprobación de María Antonieta de la comunicación para el "pliegue" en Argentina</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">María Antonieta</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Entrenamiento CO/AR</td><td class="col-pendiente" contenteditable="true">Falta que Argentina confirme fecha y personas a invitar</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">Contraparte Argentina</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Identificadores</td><td class="col-pendiente" contenteditable="true">Solicitud del identificador máster pendiente de aprobación</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">10%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true">María Antonieta</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Muebles de capacitación</td><td class="col-pendiente" contenteditable="true">Falta 1 mueble; implementar uno en CEL</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">10%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true">Logística / Infraestructura</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Plan piloto Colombia</td><td class="col-pendiente" contenteditable="true">En implementación</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">20%</td><td class="col-estatus">__STATUS_ONGOING__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">Equipo Colombia</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Presentación</td><td class="col-pendiente" contenteditable="true">Pendiente presentación con MAN</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">María Antonieta</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Ruta de carrera / Perfil de instructor</td><td class="col-pendiente" contenteditable="true">Pendiente revisión de la ruta de carrera y revisión del perfil de instructor</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PLANES DE ENTRENAMIENTO -->
+  <div class="topic" data-topic="planes-entrenamiento">
+    <div class="topic-head">
+      <div class="topic-head-left"><h3>Planes de Entrenamiento</h3><span class="topic-badge">Vinculado: 25% Excelencia Operativa</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
+      <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-subfoco">Sub-foco</th><th class="col-pendiente">Pendiente</th><th class="col-peso">Peso</th>
+        <th class="col-estatus">Estatus</th><th class="col-prioridad">Prioridad</th><th class="col-resp">Responsable</th>
+        <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="col-subfoco" contenteditable="true">Digitalización del plan</td><td class="col-pendiente" contenteditable="true">Piloto de digitalización — revisión el lunes; definir cronograma de despliegue (piloto en oficina y operaciones)</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">40%</td><td class="col-estatus">__STATUS_ONGOING__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">Equipo interno / IT</td><td class="col-obj">__OBJ_25__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">QR2</td><td class="col-pendiente" contenteditable="true">Validación de preguntas lista; falta cronograma de implementación (Walgreens Suite + implementación futura)</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">35%</td><td class="col-estatus">__STATUS_ONGOING__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_25__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Looker</td><td class="col-pendiente" contenteditable="true">Mantener activo el dashboard y cargar a las personas correspondientes</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">25%</td><td class="col-estatus">__STATUS_ONGOING__</td><td class="col-prioridad">__PRIORITY_BAJA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_25__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ONBOARDING -->
+  <div class="topic" data-topic="onboarding">
+    <div class="topic-head">
+      <div class="topic-head-left"><h3>Onboarding</h3><span class="topic-badge">Vinculado: 20% Inducción y Farmacia Escuela</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
+      <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-subfoco">Sub-foco</th><th class="col-pendiente">Pendiente</th><th class="col-peso">Peso</th>
+        <th class="col-estatus">Estatus</th><th class="col-prioridad">Prioridad</th><th class="col-resp">Responsable</th>
+        <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="col-subfoco" contenteditable="true">Roadmap inicial</td><td class="col-pendiente" contenteditable="true">Análisis del roadmap — definir cómo avanzamos con todo lo que falta por ver</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">50%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">PeopleOne</td><td class="col-pendiente" contenteditable="true">Prueba piloto pendiente de ejecutar/validar</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">50%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_ALTA__</td><td class="col-resp" contenteditable="true">Omar / IT</td><td class="col-obj">__OBJ_20A__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ACADEMIA -->
+  <div class="topic" data-topic="academia">
+    <div class="topic-head">
+      <div class="topic-head-left"><h3>Academia</h3><span class="topic-badge">Vinculado: 15% Academia Farmatodo</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
+      <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-subfoco">Sub-foco</th><th class="col-pendiente">Pendiente</th><th class="col-peso">Peso</th>
+        <th class="col-estatus">Estatus</th><th class="col-prioridad">Prioridad</th><th class="col-resp">Responsable</th>
+        <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="col-subfoco" contenteditable="true">Plan de inducción</td><td class="col-pendiente" contenteditable="true" data-placeholder="Indicar qué está pendiente (diseño, aprobación, despliegue, contenido...)"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">100%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true" data-placeholder="Responsable"></td><td class="col-obj">__OBJ_15__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CARGOS CLAVE -->
+  <div class="topic" data-topic="cargos-clave">
+    <div class="topic-head">
+      <div class="topic-head-left"><h3>Cargos Claves y Altos Potenciales</h3><span class="topic-badge">Vinculado: 20% Cargos Clave y Sucesores</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
+      <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th class="col-subfoco">Sub-foco</th><th class="col-pendiente">Pendiente</th><th class="col-peso">Peso</th>
+        <th class="col-estatus">Estatus</th><th class="col-prioridad">Prioridad</th><th class="col-resp">Responsable</th>
+        <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="col-subfoco" contenteditable="true">Actualizaciones realizadas</td><td class="col-pendiente" contenteditable="true" data-placeholder="Detallar actualizaciones ya realizadas"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">30%</td><td class="col-estatus">__STATUS_DONE__</td><td class="col-prioridad">__PRIORITY_BAJA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_20B__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Actualizaciones pendientes</td><td class="col-pendiente" contenteditable="true" data-placeholder="Detallar casos específicos por país / cargo"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">40%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_20B__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+        <tr><td class="col-subfoco" contenteditable="true">Altos potenciales</td><td class="col-pendiente" contenteditable="true" data-placeholder="Detallar seguimiento / casos de altos potenciales"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">30%</td><td class="col-estatus">__STATUS_PENDIENTE__</td><td class="col-prioridad">__PRIORITY_MEDIA__</td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj">__OBJ_20B__</td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del">__DEL__</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<div class="actions-bar">
+  <div class="hint">Edita las celdas directamente. "Guardar en este archivo" sobrescribe el mismo HTML en tu disco (Chrome/Edge). <span id="saveStatus">Guardado ✓</span></div>
+  <div class="actions-right">
+    <button class="btn-secondary" onclick="exportHTML()">⬇ Descargar copia</button>
+    <button class="btn-primary" onclick="saveToDisk()">💾 Guardar en este archivo</button>
+  </div>
+</div>
+
+<script>
+  function prioritySelectHTML(current){
+    const opts = ['Alta','Media','Baja'];
+    let html = `<select class="priority-select ${current.toLowerCase()}" onchange="onPriorityChange(this)">`;
+    opts.forEach(o=>{ html += `<option value="${o}" ${o===current?'selected':''}>${o}</option>`; });
+    html += `</select>`;
+    return html;
+  }
+  function addLinkToCell(btn){
+    const container = btn.previousElementSibling;
+    if(!container) return;
+    const url = prompt('Pega el enlace del archivo o proceso (Google Drive, SharePoint, etc.):');
+    if(!url) return;
+    let label = prompt('Texto para mostrar (opcional):', 'Ver archivo');
+    if(!label) label = 'Ver archivo';
+    const a = document.createElement('a');
+    a.href = url.trim();
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.contentEditable = 'false';
+    a.className = 'note-link';
+    a.textContent = '🔗 ' + label;
+    if(container.textContent.trim().length > 0){ container.appendChild(document.createElement('br')); }
+    container.appendChild(a);
+    container.dispatchEvent(new Event('blur'));
+  }
+
+  function toggleAchieved(btn){
+    btn.closest('td').classList.toggle('achieved');
+  }
+
+  function splitWeight(group){
+    const cells = document.querySelectorAll(`.peso[data-group="${group}"]`);
+    if(cells.length === 0) return;
+    const totalStr = prompt('¿Cuál es el peso TOTAL a repartir entre estos ' + cells.length + ' indicadores? (ej. 45)');
+    if(totalStr === null) return;
+    const total = parseFloat(totalStr.replace('%','').replace(',','.'));
+    if(isNaN(total)){ alert('Ingresa un número válido.'); return; }
+    const each = (total / cells.length).toFixed(1);
+    cells.forEach(td => { td.textContent = each + '%'; });
+    updateWeightTotal();
+  }
+
+  function updateWeightTotal(){
+    let total = 0;
+    document.querySelectorAll('table.obj-detail-table td.peso').forEach(td=>{
+      const v = parseFloat(td.textContent.replace('%','').replace(',','.'));
+      if(!isNaN(v)) total += v;
+    });
+    const el = document.getElementById('weightTotal');
+    if(!el) return;
+    el.textContent = total.toFixed(1) + '%';
+    el.style.color = Math.abs(total - 100) < 0.05 ? 'var(--green)' : 'var(--red)';
+  }
+  updateWeightTotal();
+
+  function onPriorityChange(sel){ sel.className = 'priority-select ' + sel.value.toLowerCase(); }
+
+  function statusSelectHTML(current){
+    // current: 'Pendiente' | 'On going' | 'Done'
+    const opts = [
+      {v:'Pendiente', c:'pendiente'},
+      {v:'On going', c:'ongoing'},
+      {v:'Done', c:'done'}
+    ];
+    const match = opts.find(o=>o.v===current) || opts[0];
+    let html = `<select class="status-select ${match.c}" onchange="onStatusChange(this)">`;
+    opts.forEach(o=>{ html += `<option value="${o.v}" data-class="${o.c}" ${o.v===current?'selected':''}>${o.v}</option>`; });
+    html += `</select>`;
+    return html;
+  }
+  function onStatusChange(sel){
+    const cls = sel.options[sel.selectedIndex].getAttribute('data-class');
+    sel.className = 'status-select ' + cls;
+    updateTopicCompletion(sel.closest('.topic'));
+  }
+
+  function updateTopicCompletion(topicDiv){
+    if(!topicDiv) return;
+    let sumPeso = 0, sumWeighted = 0, pendingCount = 0, totalCount = 0;
+    topicDiv.querySelectorAll('tbody tr').forEach(tr=>{
+      const pesoCell = tr.querySelector('.col-peso');
+      if(!pesoCell) return;
+      const peso = parseFloat(pesoCell.textContent.replace('%','').replace(',','.')) || 0;
+      const sel = tr.querySelector('select.status-select');
+      const val = sel ? sel.value : 'Pendiente';
+      const factor = val === 'Done' ? 1 : (val === 'On going' ? 0.5 : 0);
+      sumPeso += peso;
+      sumWeighted += peso * factor;
+      totalCount++;
+      if(val === 'Pendiente') pendingCount++;
+    });
+    const badge = topicDiv.querySelector('.completion-badge');
+    const pendingBadge = topicDiv.querySelector('.pending-badge');
+    if(pendingBadge) pendingBadge.textContent = `${pendingCount} pendiente${pendingCount === 1 ? '' : 's'}`;
+    if(!badge) return;
+    if(sumPeso === 0){ badge.textContent = 'Cumplimiento: —'; return; }
+    const pct = (sumWeighted / sumPeso * 100).toFixed(0);
+    const pesoWarn = Math.abs(sumPeso - 100) > 0.5 ? ` (pesos suman ${sumPeso.toFixed(0)}%)` : '';
+    badge.textContent = `Cumplimiento: ${pct}%${pesoWarn}`;
+  }
+
+  function objTagHTML(text){ return `<span class="obj-tag">${text}</span>`; }
+  function delBtnHTML(){ return `<button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button>`; }
+  function removeRow(btn){
+    const topic = btn.closest('.topic');
+    btn.closest('tr').remove();
+    updateTopicCompletion(topic);
+  }
+
+  document.querySelectorAll('td.col-prioridad').forEach(td=>{
+    const t = td.textContent.trim();
+    if(t.includes('__PRIORITY_ALTA__')) td.innerHTML = prioritySelectHTML('Alta');
+    else if(t.includes('__PRIORITY_MEDIA__')) td.innerHTML = prioritySelectHTML('Media');
+    else if(t.includes('__PRIORITY_BAJA__')) td.innerHTML = prioritySelectHTML('Baja');
+  });
+  document.querySelectorAll('td.col-estatus').forEach(td=>{
+    const t = td.textContent.trim();
+    if(t.includes('__STATUS_PENDIENTE__')) td.innerHTML = statusSelectHTML('Pendiente');
+    else if(t.includes('__STATUS_ONGOING__')) td.innerHTML = statusSelectHTML('On going');
+    else if(t.includes('__STATUS_DONE__')) td.innerHTML = statusSelectHTML('Done');
+  });
+  document.querySelectorAll('td.col-obj').forEach(td=>{
+    const t = td.textContent.trim();
+    if(t === '__OBJ_20A__') td.innerHTML = objTagHTML('20% Inducción/FE');
+    else if(t === '__OBJ_25__') td.innerHTML = objTagHTML('25% Exc. Operativa');
+    else if(t === '__OBJ_20B__') td.innerHTML = objTagHTML('20% Cargos Clave');
+    else if(t === '__OBJ_15__') td.innerHTML = objTagHTML('15% Academia');
+  });
+  document.querySelectorAll('td.col-del').forEach(td=>{
+    if(td.textContent.includes('__DEL__')) td.innerHTML = delBtnHTML();
+  });
+  document.querySelectorAll('.topic').forEach(updateTopicCompletion);
+
+  function updateInduccionTotals(){
+    const rows = document.querySelectorAll('table.mini-matrix tbody tr');
+    const totals = [0, 0];
+    rows.forEach(tr=>{
+      const cells = tr.querySelectorAll('td.mstat-cell .mstat-people');
+      cells.forEach((cell, idx)=>{
+        const num = parseInt(cell.textContent.replace(/[^0-9\-]/g,'')) || 0;
+        totals[idx] += num;
+      });
+    });
+    const ve = document.getElementById('totalPendVE');
+    const co = document.getElementById('totalPendCO');
+    if(ve) ve.textContent = totals[0];
+    if(co) co.textContent = totals[1];
+  }
+  updateInduccionTotals();
+
+  document.querySelectorAll('td.mstatus').forEach(td=>{
+    const t = td.textContent.trim();
+    if(t.includes('__STATUS_PENDIENTE__')) td.innerHTML = statusSelectHTML('Pendiente');
+    else if(t.includes('__STATUS_ONGOING__')) td.innerHTML = statusSelectHTML('On going');
+    else if(t.includes('__STATUS_DONE__')) td.innerHTML = statusSelectHTML('Done');
+  });
+
+  function addRow(btn){
+    const topicDiv = btn.closest('.topic');
+    const table = topicDiv.querySelector('tbody');
+    const objBadgeText = topicDiv.querySelector('.topic-badge').textContent.replace('Vinculado: ','');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="col-subfoco" contenteditable="true" data-placeholder="Sub-foco"></td>
+      <td class="col-pendiente" contenteditable="true" data-placeholder="Describe el pendiente"></td>
+      <td class="col-peso" contenteditable="true" data-placeholder="0%" onblur="updateTopicCompletion(this.closest('.topic'))"></td>
+      <td class="col-estatus">${statusSelectHTML('Pendiente')}</td>
+      <td class="col-prioridad">${prioritySelectHTML('Media')}</td>
+      <td class="col-resp" contenteditable="true" data-placeholder="Responsable"></td>
+      <td class="col-obj">${objTagHTML(objBadgeText)}</td>
+      <td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+      <td class="col-del">${delBtnHTML()}</td>
+    `;
+    table.appendChild(tr);
+    updateTopicCompletion(topicDiv);
+  }
+
+  function buildExportString(){
+    const clone = document.documentElement.cloneNode(true);
+    const liveSelects = document.querySelectorAll('select');
+    const cloneSelects = clone.querySelectorAll('select');
+    liveSelects.forEach((sel, i)=>{
+      cloneSelects[i].setAttribute('class', sel.className);
+      Array.from(cloneSelects[i].options).forEach((opt, oi)=>{
+        opt.removeAttribute('selected');
+        if(sel.options[oi].value === sel.value) opt.setAttribute('selected','selected');
+      });
+    });
+    return '<!DOCTYPE html>\n' + clone.outerHTML;
+  }
+
+  function exportHTML(){
+    const htmlStr = buildExportString();
+    const blob = new Blob([htmlStr], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dashboard_prioridades_farmatodo.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  let fileHandle = null;
+  async function saveToDisk(){
+    const htmlStr = buildExportString();
+    if('showSaveFilePicker' in window){
+      try{
+        if(!fileHandle){
+          fileHandle = await window.showSaveFilePicker({
+            suggestedName:'dashboard_prioridades_farmatodo.html',
+            types:[{description:'Archivo HTML', accept:{'text/html':['.html']}}]
+          });
+        }
+        const writable = await fileHandle.createWritable();
+        await writable.write(htmlStr);
+        await writable.close();
+        flashSaved();
+      }catch(e){
+        if(e.name !== 'AbortError'){ exportHTML(); }
+      }
+    } else {
+      exportHTML();
+    }
+  }
+  function flashSaved(){
+    const el = document.getElementById('saveStatus');
+    el.classList.add('show');
+    setTimeout(()=>el.classList.remove('show'), 2000);
+  }
+</script>
+
+</body>
+</html>
