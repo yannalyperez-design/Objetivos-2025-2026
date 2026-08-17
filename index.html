@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es"><head>
+<html lang="es">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard de Prioridades — Cierre Fiscal</title>
@@ -268,6 +269,7 @@
   .btn-secondary:hover{background:var(--blue-light);}
   #saveStatus{ font-size:12px; color:var(--green); font-weight:600; opacity:0; transition:opacity .3s; }
   #saveStatus.show{ opacity:1; }
+  #syncStatus{ font-size:12px; font-weight:600; }
 
   @media (max-width: 780px){
     header.top{padding:26px 20px;}
@@ -331,30 +333,30 @@
             <td contenteditable="true">Mejorar el proceso de Plan de Entrenamiento para todas las unidades de negocio para facilitar el aprendizaje de los procesos</td>
             <td class="peso" data-group="grp-excelencia" contenteditable="true" onblur="updateWeightTotal()">25%</td>
             <td>
-              <select class="country-select"><option selected="selected">Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Implementar estrategias para impulsar la correcta ejecución de planes de entrenamiento en todas las unidades de negocio de los tres países (prioridad Operaciones)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Redefinición de las evaluaciones de conocimiento sobre planes de entrenamiento de operaciones para medir efectivamente dominio de los procesos del cargo (Ven, Col y Arg)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Ejecución de la digitalización del Plan de Entrenamiento para todas las unidades de negocio en los 3 países (prioridad Operaciones)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><div>Mínimo:</div><div>- Actualización PDE y levantamiento de PDE de cargos faltantes; separación PDE oficina (movimientos y nuevos ingresos)</div><div>- Píldoras PDE (públicas y activas)</div><div>- Comunicaciones PDE</div><div>- Taller de capacitación (armado de contenido)</div><div>- Automatización de recordatorios de oficina COL y VEN</div><div>- Preguntas encuesta QR2 para oficina y dashboard de preguntas PDE Oficina (Qualtrics)</div><div><br></div><div>Meta:</div><div>- Actualización y creación de preguntas para Gerente de tienda, Subgerente, APV Senior, Director técnico, supervisores de Farmacia, Base farmacia, Base misceláneos; se crearon las de Asesor OTC, Asesora de Belleza, Asesora Dermo, Asistencial y Recetura (validado por GA de Venezuela y Colombia, Innovación y Procesos, y encargados de área). Se redefinieron las lógicas de complejidad y profundidad según el cargo.</div><div><br></div><div>Superior:</div><div>- Construcción y diseño de la plataforma digital del Plan de Entrenamiento, con carga de planes para todas las unidades de negocio de todos los países y seguimiento desde supervisor inmediato, RRHH Negocio y módulo administrativo. Lista para ejecutar cronograma e implementar en el año fiscal 2026-2027.</div><br><a href="https://plan-de-entrenamiento-farmatodo.web.app/" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 Plataforma Plan de Entrenamiento</a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
           </tr>
           <tr>
             <td contenteditable="true">Llevar a cabo actividades que impulsen la correcta ejecución del plan de inducción por parte de las áreas de RRHH Negocio y las Farmacias Escuela</td>
             <td class="peso" data-group="grp-excelencia" contenteditable="true" onblur="updateWeightTotal()">20%</td>
             <td>
-              <select class="country-select"><option selected="selected">Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
             </td>
             <td class="meta-cell achieved">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
@@ -366,21 +368,21 @@
               <div class="meta-text" contenteditable="true">Cumplimiento del 80% de las actividades de capacitación del roadmap de mejora de la inducción (on boarding)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia">📎 Proyecto de Onboarding - Roadmap</div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Realizar entrenamientos para garantizar que el 50% de los instructores de farmacias escuelas seleccionadas estén entrenados adecuadamente e implementar una metodología para mantener entrenado al resto de la farmacia escuela</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><div>Mínimo:&nbsp;</div><div>-Inicio 2.0 publicado y operativo para todas las Unidades de Negocio.</div><div>Meta y superior:</div><div>- Ejecución del roadmap de Onboarding 97.50% Proyecto de Onboarding- Roadmap</div><div><br></div><div><br></div><br><a href="https://docs.google.com/spreadsheets/d/1A-8YqAB1RDAvKbuctBfvBEwpi2Pi_u2IPvYmN-ccUDc/edit?usp=sharing" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 Roadmap</a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
           </tr>
           <tr>
             <td class="obj-name" contenteditable="true">Aumentar la experticia y especialización de los colaboradores para mejorar el desempeño en sus cargos y acompañar la misión Organizacional</td>
             <td contenteditable="true">Implementar actividades de formación para actualizar a los colaboradores con las tendencias globales y ampliar sus conocimientos técnicos (según cumplimiento del presupuesto)</td>
             <td class="peso" contenteditable="true" onblur="updateWeightTotal()">20%</td>
             <td>
-              <select class="country-select"><option selected="selected">Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">85% del cumplimiento de plan de entrenamiento técnico internacional para los sucesores de Comité Ejecutivo y ocupantes de cargos clave (según plan aprobado)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
@@ -395,31 +397,31 @@
               <div class="meta-text" contenteditable="true">Ejecutar sesiones de formación en tendencias y actualización para al menos 3 vicepresidencias</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><div>cargos_claves_tracker. Resumen. Responsable: Omar Perez.</div><br><a href="https://yannalyperez-design.github.io/cencap-cargos-claves/" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 Resumen de Git Hub</a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
           </tr>
           <tr>
             <td class="obj-name" contenteditable="true">Fomentar el autodesarrollo de los colaboradores a través de herramientas que les faciliten formarse</td>
             <td contenteditable="true">Implementar formaciones que sirvan como herramientas para que los líderes impulsen el dominio de procesos</td>
             <td class="peso" contenteditable="true" onblur="updateWeightTotal()">15%</td>
             <td>
-              <select class="country-select"><option selected="selected">Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
             </td>
             <td class="meta-cell achieved">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Levantamiento de los procesos de Capacitación de plan de inducción como insumo para construir nueva Academia Farmatodo</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia">📎 PAP procesos de capacitación</div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Implementación de mejoras de nueva Academia Farmatodo (nuevo sistema)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Diseñar un ambiente controlado de aprendizaje para el entrenamiento en procesos y ejecutar al menos en Argentina</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><div>Mínimo: Levantamiento de procesos de capacitación — desde el área de inducción se relevaron los procesos actuales más el ideal, como insumo para la nueva Academia Farmatodo (también usado para Onboarding y la plataforma del PDE Digital). PAP procesos de capacitación - Academia 3.0</div><div><br></div><div>Meta: Lanzamiento de la Academia Farmatodo (también usado para Onboarding y PDE Digital). PAP procesos de capacitación - Academia 3.0</div><div><br></div><div>Superior: diseño de contenido, estrategia, presupuesto y estimación de costos:</div><div>- Material y contenido de certificación</div><div>- Materiales de seguimiento (check list, dashboard)</div><div>- Ejecución del piloto en Venezuela</div><div>- Perfil del instructor / Ruta de carrera</div><div>- Definición de cantidad de días</div><div>- Proyección de costo de espacio controlado</div></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
           </tr>
           <tr>
             <td class="obj-strat" contenteditable="true">—</td>
@@ -427,19 +429,19 @@
             <td contenteditable="true">Gastos VP RRHH (gastos controlables)</td>
             <td class="peso" contenteditable="true" onblur="updateWeightTotal()">10%</td>
             <td>
-              <select class="country-select"><option selected="selected">Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Sobreejecución 2% del presupuesto (584.809,86 USD)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Ejecución del 100% presupuesto (573.343 USD)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">Ahorro del 2% del presupuesto (561.876,14 USD)</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
@@ -452,30 +454,30 @@
             <td contenteditable="true">Cumplimiento del indicador CSAT interno de capacitación</td>
             <td class="peso" contenteditable="true" onblur="updateWeightTotal()">10%</td>
             <td>
-              <select class="country-select"><option selected="selected">Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
+              <select class="country-select"><option>Todos</option><option>Venezuela</option><option>Colombia</option><option>Argentina</option></select>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">89% CSAT interno</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">90% CSAT interno</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="meta-cell achieved">
+            <td class="meta-cell">
               <button class="achieve-toggle" onclick="toggleAchieved(this)" title="Marcar como alcanzado">✓</button>
               <div class="meta-text" contenteditable="true">91% CSAT interno</div>
               <div class="evidence-line" contenteditable="true" data-placeholder="+ agregar enlace o evidencia"></div>
             </td>
-            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><div>Mínimo: 89% cumplido</div><div><br></div><div>Meta: 90% cumplido</div><div><br></div><div>Superior: 90,4% — no cumplido</div></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+            <td class="obs-cell"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td colspan="3" style="text-align:right;font-weight:700;background:var(--blue-light);border:1px solid var(--border);">Total de pesos:</td>
-            <td id="weightTotal" style="font-weight: 800; text-align: center; background: var(--blue-light); border: 1px solid var(--border); color: var(--green);">100.0%</td>
+            <td id="weightTotal" style="font-weight:800;text-align:center;background:var(--blue-light);border:1px solid var(--border);"></td>
             <td colspan="4" style="background:var(--blue-light);border:1px solid var(--border);"></td>
           </tr>
         </tfoot>
@@ -512,8 +514,8 @@
         <tfoot>
           <tr>
             <td style="font-weight:700; background:var(--blue-light);">Total pendientes</td>
-            <td id="totalPendVE" style="font-weight:800; text-align:center; background:var(--blue-light);">0</td>
-            <td id="totalPendCO" style="font-weight:800; text-align:center; background:var(--blue-light);">0</td>
+            <td id="totalPendVE" style="font-weight:800; text-align:center; background:var(--blue-light);"></td>
+            <td id="totalPendCO" style="font-weight:800; text-align:center; background:var(--blue-light);"></td>
           </tr>
         </tfoot>
       </table>
@@ -527,7 +529,7 @@
   <!-- FARMACIA ESCUELA -->
   <div class="topic" data-topic="farmacia-escuela">
     <div class="topic-head">
-      <div class="topic-head-left"><h3>Farmacia Escuela</h3><span class="topic-badge">Vinculado: 20% Inducción y Farmacia Escuela</span><span class="completion-badge">Cumplimiento: 10% (pesos suman 105%)</span><span class="pending-badge">6 pendientes</span></div>
+      <div class="topic-head-left"><h3>Farmacia Escuela</h3><span class="topic-badge">Vinculado: 20% Inducción y Farmacia Escuela</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
       <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
     </div>
     <table>
@@ -537,31 +539,14 @@
         <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
       </tr></thead>
       <tbody>
-        
-        <tr><td class="col-subfoco" contenteditable="true">Entrenamiento Argentina</td><td class="col-pendiente" contenteditable="true">Salida el 01/09&nbsp; - Kick Off 25 de Agosto&nbsp;</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select alta" onchange="onPriorityChange(this)"><option value="Alta" selected="selected">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Contraparte Argentina</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><a href="https://canva.link/9apfhtyl7rdonzi" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 Kick Off Argentina </a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Identificadores</td><td class="col-pendiente" contenteditable="true">Solicitud del identificado / Ya se encuentra en oficina&nbsp;</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">10%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Oriana O</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Muebles de capacitación</td><td class="col-pendiente" contenteditable="true">Falta 1 mueble; implementar uno en Cendis</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">10%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Logística / Infraestructura</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Plan piloto Colombia</td><td class="col-pendiente" contenteditable="true">En implementación se ejecuta en Septiembre</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">20%</td><td class="col-estatus"><select class="status-select ongoing" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente">Pendiente</option><option value="On going" data-class="ongoing" selected="selected">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select alta" onchange="onPriorityChange(this)"><option value="Alta" selected="selected">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Equipo Colombia</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Rediseño de Farmacia escuea&nbsp;</td><td class="col-pendiente" contenteditable="true">Pendiente presentación con MAN</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select alta" onchange="onPriorityChange(this)"><option value="Alta" selected="selected">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">María Antonieta</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><a href="https://canva.link/rgghct62653xghl" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 Rediseño de Farmacia escuela</a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Ruta de carrera / Perfil de instructor</td><td class="col-pendiente" contenteditable="true">Pendiente revisión de la ruta de carrera y revisión del perfil de instructor</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">15%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><a href="https://docs.google.com/presentation/d/17W_IBe-J2TVZCJ1Q6YCiWIsGX1lRi12e/edit?usp=sharing&amp;ouid=114771791108228913621&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 Propuesta desarrollo  - Ruta de carrera</a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-      <tr>
-      <td class="col-subfoco" contenteditable="true" data-placeholder="Sub-foco">Entrenamiento de Farmacia escuela&nbsp;</td>
-      <td class="col-pendiente" contenteditable="true" data-placeholder="Describe el pendiente">Venezuela y Colombia llevan el avance del 60 - 14/08&nbsp;</td>
-      <td class="col-peso" contenteditable="true" data-placeholder="0%" onblur="updateTopicCompletion(this.closest('.topic'))">20%</td>
-      <td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td>
-      <td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td>
-      <td class="col-resp" contenteditable="true" data-placeholder="Responsable"></td>
-      <td class="col-obj"><span class="obj-tag">20% Inducción y Farmacia Escuela</span></td>
-      <td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."><a href="https://datastudio.google.com/u/0/reporting/868f168e-68f4-466b-bcd8-f31a374eefe0/page/p_w51rbdlkrd?s=uq8gdGVvVE0" target="_blank" rel="noopener" contenteditable="false" class="note-link">🔗 looker </a></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
-      <td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td>
-    </tr></tbody>
+      </tbody>
     </table>
   </div>
 
   <!-- PLANES DE ENTRENAMIENTO -->
   <div class="topic" data-topic="planes-entrenamiento">
     <div class="topic-head">
-      <div class="topic-head-left"><h3>Planes de Entrenamiento</h3><span class="topic-badge">Vinculado: 25% Excelencia Operativa</span><span class="completion-badge">Cumplimiento: 50%</span><span class="pending-badge">0 pendientes</span></div>
+      <div class="topic-head-left"><h3>Planes de Entrenamiento</h3><span class="topic-badge">Vinculado: 25% Excelencia Operativa</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
       <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
     </div>
     <table>
@@ -571,9 +556,6 @@
         <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
       </tr></thead>
       <tbody>
-        <tr><td class="col-subfoco" contenteditable="true">Digitalización del plan</td><td class="col-pendiente" contenteditable="true">Piloto de digitalización — revisión el lunes; definir cronograma de despliegue (piloto en oficina y operaciones)</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">40%</td><td class="col-estatus"><select class="status-select ongoing" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente">Pendiente</option><option value="On going" data-class="ongoing" selected="selected">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select alta" onchange="onPriorityChange(this)"><option value="Alta" selected="selected">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Equipo interno / IT</td><td class="col-obj"><span class="obj-tag">25% Exc. Operativa</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">QR2</td><td class="col-pendiente" contenteditable="true">Validación de preguntas lista; falta cronograma de implementación (Walgreens Suite + implementación futura)</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">35%</td><td class="col-estatus"><select class="status-select ongoing" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente">Pendiente</option><option value="On going" data-class="ongoing" selected="selected">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">25% Exc. Operativa</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Looker</td><td class="col-pendiente" contenteditable="true">Mantener activo el dashboard y cargar a las personas correspondientes</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">25%</td><td class="col-estatus"><select class="status-select ongoing" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente">Pendiente</option><option value="On going" data-class="ongoing" selected="selected">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select baja" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media">Media</option><option value="Baja" selected="selected">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">25% Exc. Operativa</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -581,7 +563,7 @@
   <!-- ONBOARDING -->
   <div class="topic" data-topic="onboarding">
     <div class="topic-head">
-      <div class="topic-head-left"><h3>Onboarding</h3><span class="topic-badge">Vinculado: 20% Inducción y Farmacia Escuela</span><span class="completion-badge">Cumplimiento: 0%</span><span class="pending-badge">2 pendientes</span></div>
+      <div class="topic-head-left"><h3>Onboarding</h3><span class="topic-badge">Vinculado: 20% Inducción y Farmacia Escuela</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
       <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
     </div>
     <table>
@@ -591,8 +573,6 @@
         <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
       </tr></thead>
       <tbody>
-        <tr><td class="col-subfoco" contenteditable="true">Roadmap inicial</td><td class="col-pendiente" contenteditable="true">Análisis del roadmap — definir cómo avanzamos con todo lo que falta por ver</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">50%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select alta" onchange="onPriorityChange(this)"><option value="Alta" selected="selected">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">PeopleOne</td><td class="col-pendiente" contenteditable="true">Prueba piloto pendiente de ejecutar/validar</td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">50%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select alta" onchange="onPriorityChange(this)"><option value="Alta" selected="selected">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Omar / IT</td><td class="col-obj"><span class="obj-tag">20% Inducción/FE</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -600,7 +580,7 @@
   <!-- ACADEMIA -->
   <div class="topic" data-topic="academia">
     <div class="topic-head">
-      <div class="topic-head-left"><h3>Academia</h3><span class="topic-badge">Vinculado: 15% Academia Farmatodo</span><span class="completion-badge">Cumplimiento: 0%</span><span class="pending-badge">1 pendiente</span></div>
+      <div class="topic-head-left"><h3>Academia</h3><span class="topic-badge">Vinculado: 15% Academia Farmatodo</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
       <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
     </div>
     <table>
@@ -610,7 +590,6 @@
         <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
       </tr></thead>
       <tbody>
-        <tr><td class="col-subfoco" contenteditable="true">Plan de inducción</td><td class="col-pendiente" contenteditable="true" data-placeholder="Indicar qué está pendiente (diseño, aprobación, despliegue, contenido...)"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">100%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true" data-placeholder="Responsable"></td><td class="col-obj"><span class="obj-tag">15% Academia</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -618,7 +597,7 @@
   <!-- CARGOS CLAVE -->
   <div class="topic" data-topic="cargos-clave">
     <div class="topic-head">
-      <div class="topic-head-left"><h3>Cargos Claves y Altos Potenciales</h3><span class="topic-badge">Vinculado: 20% Cargos Clave y Sucesores</span><span class="completion-badge">Cumplimiento: 30%</span><span class="pending-badge">2 pendientes</span></div>
+      <div class="topic-head-left"><h3>Cargos Claves y Altos Potenciales</h3><span class="topic-badge">Vinculado: 20% Cargos Clave y Sucesores</span><span class="completion-badge">Cumplimiento: —</span><span class="pending-badge">0 pendientes</span></div>
       <button class="add-row-btn" onclick="addRow(this)">+ Agregar fila</button>
     </div>
     <table>
@@ -628,9 +607,6 @@
         <th class="col-obj">Objetivo</th><th class="col-obs">Observaciones</th><th class="col-del"></th>
       </tr></thead>
       <tbody>
-        <tr><td class="col-subfoco" contenteditable="true">Actualizaciones realizadas</td><td class="col-pendiente" contenteditable="true" data-placeholder="Detallar actualizaciones ya realizadas"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">30%</td><td class="col-estatus"><select class="status-select done" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done" selected="selected">Done</option></select></td><td class="col-prioridad"><select class="priority-select baja" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media">Media</option><option value="Baja" selected="selected">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">20% Cargos Clave</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Actualizaciones pendientes</td><td class="col-pendiente" contenteditable="true" data-placeholder="Detallar casos específicos por país / cargo"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">40%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">20% Cargos Clave</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
-        <tr><td class="col-subfoco" contenteditable="true">Altos potenciales</td><td class="col-pendiente" contenteditable="true" data-placeholder="Detallar seguimiento / casos de altos potenciales"></td><td class="col-peso" contenteditable="true" onblur="updateTopicCompletion(this.closest('.topic'))">30%</td><td class="col-estatus"><select class="status-select pendiente" onchange="onStatusChange(this)"><option value="Pendiente" data-class="pendiente" selected="selected">Pendiente</option><option value="On going" data-class="ongoing">On going</option><option value="Done" data-class="done">Done</option></select></td><td class="col-prioridad"><select class="priority-select media" onchange="onPriorityChange(this)"><option value="Alta">Alta</option><option value="Media" selected="selected">Media</option><option value="Baja">Baja</option></select></td><td class="col-resp" contenteditable="true">Yannaly</td><td class="col-obj"><span class="obj-tag">20% Cargos Clave</span></td><td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td><td class="col-del"><button class="del-btn" onclick="removeRow(this)" title="Eliminar fila">✕</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -638,7 +614,7 @@
 </main>
 
 <div class="actions-bar">
-  <div class="hint">Edita las celdas directamente. "Guardar en este archivo" sobrescribe el mismo HTML en tu disco (Chrome/Edge). <span id="saveStatus" class="show">Guardado ✓</span></div>
+  <div class="hint">Edita las celdas directamente. "Guardar en este archivo" sobrescribe el mismo HTML en tu disco (Chrome/Edge). <span id="saveStatus">Guardado ✓</span> · <span id="syncStatus">Conectando con Sheets…</span></div>
   <div class="actions-right">
     <button class="btn-secondary" onclick="exportHTML()">⬇ Descargar copia</button>
     <button class="btn-primary" onclick="saveToDisk()">💾 Guardar en este archivo</button>
@@ -803,25 +779,131 @@
     else if(t.includes('__STATUS_DONE__')) td.innerHTML = statusSelectHTML('Done');
   });
 
-  function addRow(btn){
-    const topicDiv = btn.closest('.topic');
-    const table = topicDiv.querySelector('tbody');
+  // ======================= CONEXIÓN CON GOOGLE SHEETS =======================
+  const CONFIG = {
+    // Pega aquí la URL de tu Apps Script Web App (Implementar > Nueva implementación > Aplicación web)
+    WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzHVePvVS8PKGqgWm5XeVWRtO359PAwFKX3s8gTKxbp03Q1ILcSfaNuT9CzZzs0XQ5u/exec'
+  };
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  function setSyncStatus(ok, msg){
+    const el = document.getElementById('syncStatus');
+    if(!el) return;
+    el.textContent = ok ? '🟢 Sincronizado con Sheets' : ('🔴 ' + (msg || 'Sin conexión a Sheets'));
+    el.style.color = ok ? 'var(--green)' : 'var(--red)';
+  }
+
+  async function loadData(){
+    if(CONFIG.WEB_APP_URL.includes('PEGA_AQUI')){
+      setSyncStatus(false, 'Configura CONFIG.WEB_APP_URL para conectar con Sheets');
+      return;
+    }
+    try{
+      const res = await fetch(CONFIG.WEB_APP_URL);
+      const rows = await res.json();
+      document.querySelectorAll('.topic tbody').forEach(tb => tb.innerHTML = '');
+      rows.forEach(row => appendRowToDOM(row));
+      document.querySelectorAll('.topic').forEach(updateTopicCompletion);
+      setSyncStatus(true);
+    }catch(err){
+      console.error(err);
+      setSyncStatus(false, 'Error al conectar con Sheets');
+    }
+  }
+
+  function appendRowToDOM(row){
+    const topicDiv = document.querySelector(`.topic[data-topic="${row.topic}"]`);
+    if(!topicDiv) return;
+    const tbody = topicDiv.querySelector('tbody');
     const objBadgeText = topicDiv.querySelector('.topic-badge').textContent.replace('Vinculado: ','');
     const tr = document.createElement('tr');
+    tr.dataset.id = row.id;
     tr.innerHTML = `
-      <td class="col-subfoco" contenteditable="true" data-placeholder="Sub-foco"></td>
-      <td class="col-pendiente" contenteditable="true" data-placeholder="Describe el pendiente"></td>
-      <td class="col-peso" contenteditable="true" data-placeholder="0%" onblur="updateTopicCompletion(this.closest('.topic'))"></td>
-      <td class="col-estatus">${statusSelectHTML('Pendiente')}</td>
-      <td class="col-prioridad">${prioritySelectHTML('Media')}</td>
-      <td class="col-resp" contenteditable="true" data-placeholder="Responsable"></td>
+      <td class="col-subfoco" contenteditable="true" onblur="fieldChanged(this,'subfoco')">${escapeHtml(row.subfoco)}</td>
+      <td class="col-pendiente" contenteditable="true" data-placeholder="Describe el pendiente" onblur="fieldChanged(this,'pendiente')">${escapeHtml(row.pendiente)}</td>
+      <td class="col-peso" contenteditable="true" data-placeholder="0%" onblur="pesoChanged(this)">${escapeHtml(String(row.peso || '0'))}%</td>
+      <td class="col-estatus">${statusSelectHTML(row.estatus || 'Pendiente')}</td>
+      <td class="col-prioridad">${prioritySelectHTML(row.prioridad || 'Media')}</td>
+      <td class="col-resp" contenteditable="true" data-placeholder="Responsable" onblur="fieldChanged(this,'responsable')">${escapeHtml(row.responsable)}</td>
       <td class="col-obj">${objTagHTML(objBadgeText)}</td>
-      <td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..."></div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
+      <td class="col-obs"><div class="obs-content" contenteditable="true" data-placeholder="Resumen / notas..." onblur="fieldChanged(this,'observaciones')">${row.observaciones || ''}</div><button class="link-btn" onclick="addLinkToCell(this)" title="Agregar enlace de evidencia">🔗 enlace</button></td>
       <td class="col-del">${delBtnHTML()}</td>
     `;
-    table.appendChild(tr);
-    updateTopicCompletion(topicDiv);
+    tbody.appendChild(tr);
+    const statusSel = tr.querySelector('select.status-select');
+    statusSel.addEventListener('change', function(){ saveField(tr.dataset.id, 'estatus', this.value); });
+    const prioSel = tr.querySelector('select.priority-select');
+    prioSel.addEventListener('change', function(){ saveField(tr.dataset.id, 'prioridad', this.value); });
   }
+
+  function fieldChanged(el, field){
+    const tr = el.closest('tr');
+    const value = (field === 'observaciones') ? el.innerHTML : el.textContent.trim();
+    saveField(tr.dataset.id, field, value);
+  }
+
+  function pesoChanged(el){
+    const tr = el.closest('tr');
+    const num = parseFloat(el.textContent.replace('%','').replace(',','.')) || 0;
+    el.textContent = num + '%';
+    updateTopicCompletion(tr.closest('.topic'));
+    saveField(tr.dataset.id, 'peso', num);
+  }
+
+  function saveField(id, field, value){
+    postToSheet({ action: 'update', id: id, fields: { [field]: value } });
+  }
+
+  function postToSheet(payload){
+    if(CONFIG.WEB_APP_URL.includes('PEGA_AQUI')) return;
+    fetch(CONFIG.WEB_APP_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(r => r.json()).then(() => { flashSaved(); setSyncStatus(true); })
+      .catch(() => setSyncStatus(false, 'No se pudo guardar el último cambio'));
+  }
+
+  function removeRow(btn){
+    const tr = btn.closest('tr');
+    const topic = btn.closest('.topic');
+    const id = tr.dataset.id;
+    if(!confirm('¿Eliminar esta fila también del Google Sheet?')) return;
+    tr.remove();
+    updateTopicCompletion(topic);
+    if(id) postToSheet({ action: 'delete', id: id });
+  }
+
+  async function addRow(btn){
+    const topicDiv = btn.closest('.topic');
+    const topicKey = topicDiv.dataset.topic;
+    if(CONFIG.WEB_APP_URL.includes('PEGA_AQUI')){
+      appendRowToDOM({ id: 'local-' + Date.now(), topic: topicKey, subfoco: '', pendiente: '', peso: 0, estatus: 'Pendiente', prioridad: 'Media', responsable: '', observaciones: '' });
+      updateTopicCompletion(topicDiv);
+      return;
+    }
+    try{
+      const res = await fetch(CONFIG.WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'create', topic: topicKey })
+      });
+      const result = await res.json();
+      appendRowToDOM({ id: result.id, topic: topicKey, subfoco: '', pendiente: '', peso: 0, estatus: 'Pendiente', prioridad: 'Media', responsable: '', observaciones: '' });
+      updateTopicCompletion(topicDiv);
+      setSyncStatus(true);
+    }catch(err){
+      setSyncStatus(false, 'No se pudo crear la fila en Sheets');
+    }
+  }
+
+  loadData();
+  // ======================= FIN CONEXIÓN CON GOOGLE SHEETS =======================
 
   function buildExportString(){
     const clone = document.documentElement.cloneNode(true);
@@ -879,6 +961,5 @@
   }
 </script>
 
-
-
-</body></html>
+</body>
+</html>
